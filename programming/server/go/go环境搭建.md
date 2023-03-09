@@ -19,4 +19,4 @@ go env -w GO111MOUBLE=on
 go env -w GOPROXY=https:// goproxy.cn,direct
 ```
 ![](images/img-2023-03-09-10-57-19.png)
-
+3.go mod 管理相关知识自行搜索
