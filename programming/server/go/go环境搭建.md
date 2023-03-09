@@ -19,4 +19,11 @@ go env -w GO111MOUBLE=on
 go env -w GOPROXY=https:// goproxy.cn,direct
 ```
 ![](images/img-2023-03-09-10-57-19.png)
-3.go mod 管理相关知识自行搜索
+3.go mod常用如下， 其他相关知识自行搜索
+```bash
+go mod init + module名称  // 给就项目添加mod管理
+
+go build ./...  // 可以一次性将目录下所有的项目的依赖
+
+go get xxx  // 用于添加依赖
+```
