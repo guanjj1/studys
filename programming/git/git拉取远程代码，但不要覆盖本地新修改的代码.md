@@ -69,9 +69,9 @@ git stash pop
 
 git add .
 git commit -m zhushi
+# push可选
 git push
 
-git checkout 新分支 
 #主分支合并到分支
 git merge master
 # 解冲突 
