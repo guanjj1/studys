@@ -1,7 +1,7 @@
 ### git拉取远程代码，但不要覆盖本地新修改的代码
 参考连接\
-<https://blog.csdn.net/qq_42956653/article/details/121613703>\
-<https://blog.csdn.net/Joye_7y/article/details/125769826>\
+https://blog.csdn.net/qq_42956653/article/details/121613703\
+https://blog.csdn.net/Joye_7y/article/details/125769826\
 1.先切换到自己的分支
 ```bash
 git checkout 自己的分支名
