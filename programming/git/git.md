@@ -31,4 +31,8 @@ git checkout -b 新分支名
 git stash pop
 ```
 8.最后，正常提交代码
+```bash
+git add .
+git commit -m zhushi
+git push
 
