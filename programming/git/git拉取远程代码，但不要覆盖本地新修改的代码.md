@@ -52,6 +52,7 @@ git checkout 自己的分支名
 2.在自己分支上，先提交
 ```bash
 git add .
+git commit -m beizhu
 ```
 3.然后，将提交的代码放到暂存区[stash详解](#stash)
 ```bash
