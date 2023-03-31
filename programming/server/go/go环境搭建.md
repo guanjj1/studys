@@ -1,4 +1,12 @@
-##windows go环境搭建
+<!--
+ * @Author: guanjiajun www.guanjiajun@ewake.com
+ * @Date: 2023-03-09 10:43:13
+ * @LastEditors: guanjiajun www.guanjiajun@ewake.com
+ * @LastEditTime: 2023-03-31 08:38:06
+ * @FilePath: \studys\programming\server\go\go环境搭建.md
+ * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+-->
+## windows go环境搭建
 1.golang官网下载安装，https://golang.google.cn/dl/
 注意点看你是否需要更换安装路径
 ![](images/img-2023-03-09-10-49-47.png)

@@ -6,14 +6,14 @@
  * @FilePath: \studys\前端\vue3\vue,vite,ts项目搭建.md
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
-###1.安装node.js
+### 1.安装node.js
 1.官网安装
 2.安装校验
 ```bash
 node -v
 
 ```
-###2.vscode构建项目
+### 2.vscode构建项目
 1.插件安装
 - volar
 - TypeScript Vue Plugin
