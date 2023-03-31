@@ -2,11 +2,11 @@
 参考连接\
 <https://blog.csdn.net/qq_42956653/article/details/121613703>\
 <https://blog.csdn.net/Joye_7y/article/details/125769826>\
-1.先切换到自己的分支
+1.先切换到自己的分支（切换分支后进行代码编写）
 ```bash
 git checkout 自己的分支名
 ```
-2.在镇江分支上，先提交
+2.在自己分支上，先提交
 ```bash
 git add .
 ```
