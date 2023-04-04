@@ -2,7 +2,7 @@
  * @Author: guanjiajun www.guanjiajun@ewake.com
  * @Date: 2023-04-03 15:37:56
  * @LastEditors: guanjiajun www.guanjiajun@ewake.com
- * @LastEditTime: 2023-04-03 19:52:59
+ * @LastEditTime: 2023-04-04 18:08:02
  * @FilePath: \studys\programming\linux\centos常见命令.md
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -43,5 +43,7 @@ firewall-cmd --permanent --remove-port=8080/tcp
 firewall-cmd --reload
 #查询端口是否开放用 --query-port
 firewall-cmd --query-port=8080/tcp
+#建议重启
 ```
+
 ![](images/img-2023-04-03-19-54-51.png)
