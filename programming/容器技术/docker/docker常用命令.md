@@ -100,6 +100,11 @@ docker ps -a
 ```shell
 docker run -itd --name redis002 -p 8888:6379 --restart=always  redis:5.0.5 /bin/bash
 ```
+限制日志文件的大小
+启动容器时，可以通过参数设置日志文件的大小、日志文件的格式。
+```shell
+docker run -it --log-opt max-size=10m --log-opt max-file=3 alpine ash
+```
 (1)交互式创建容器
 ```shell
 docker run -it --name=容器名称(取的名字) 镜像名称:标签 /bin/bash
