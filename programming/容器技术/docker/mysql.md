@@ -2,7 +2,7 @@
  * @Author: guanjiajun www.guanjiajun@ewake.com
  * @Date: 2023-04-01 19:26:23
  * @LastEditors: guanjiajun www.guanjiajun@ewake.com
- * @LastEditTime: 2023-04-07 18:11:00
+ * @LastEditTime: 2023-05-30 14:22:00
  * @FilePath: \studys\programming\容器技术\docker\mysql.md
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -35,7 +35,16 @@ firewall-cmd --reload
 #查询端口是否开放用 --query-port
 firewall-cmd --query-port=8080/tcp
 #建议重启
-docker run -di -p 3306:3306 --name mysql --restart=always -v /home/mysql/log:/var/log/mysql -v /home/mysql/data:/var/lib/mysql -v /home/mysql/conf:/etc/mysql -v /home/mysql/mysql-files:/var/lib/mysql-files -e MYSQL_ROOT_PASSWORD=ewake666 mysql:latest
+
+echo 'Asia/Shanghai' > /etc/timezone/timezone
+-v /etc/timezone/timezone:/etc/timezone
+#非centos
+-v /etc/timezone:/etc/timezone
+
+# 或采用
+-v /etc/localtime:/etc/localtime
+
+docker run -di -p 3306:3306 --name mysql --restart=always -v /home/mysql/log:/var/log/mysql -v /home/mysql/data:/var/lib/mysql -v /etc/localtime:/etc/localtime -v /home/mysql/conf:/etc/mysql -v /home/mysql/mysql-files:/var/lib/mysql-files -e MYSQL_ROOT_PASSWORD=ewake666 mysql:latest
 
 #限制日志文件大小
 --log-opt max-size=100m --log-opt max-file=2

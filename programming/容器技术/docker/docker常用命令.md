@@ -87,6 +87,27 @@ docker ps
 # 查看所有
 docker ps -a
 ```
+### docker时区
+```shell
+# 容器中设置时区一直是独立于宿主机的。 可以通过挂载 /etc/timezone 的方式保持与宿主机时间一致。
+docker run --rm -it -v /etc/timezone:/etc/timezone debian bash
+
+# 报错
+# 原因是centos7.6中/etc/timezone是一个文件夹,而不是一个文件,执行如下命令:
+ 
+echo 'Asia/Shanghai' > /etc/timezone/timezone
+ 
+# 然后执行
+docker run -d --name sys-app  -v /etc/timezone/timezone:/etc/timezone  -v 
+/etc/localtime:/etc/localtime  -p 8001:8001  --restart=always --net=host 
+ sys-app:latest
+
+
+docker run -p 3306:3306 --name mysql -v /etc/localtime:/etc/localtime
+
+docker run  -e TZ="Asia/Shanghai" -p 8090:8090 -d --name ch ch/ch
+
+```
 #### 创建启动容器
 命令及参数\
 命令：docker run\
@@ -97,6 +118,24 @@ docker ps -a
 -d: 会创建一个守护容器在后台运行（这样创建容器不会自动登录容器，如果只加-i-t两个参数，创建后自动登录容器）\
 -p: 表示端口映射，前者是宿主主机端口，后者是容器内的映射端口\
 --restart=always 便表示，该容器随docker服务启动而自动启动
+```shell
+docker run [选项] 镜像名
+选项
+-d 后台运行
+-it 提供容器交互
+--name 设置容器名
+--cpus 设置cpu个数
+--env 设置环境变量
+--mount type=bind,source=/root/target,target=/app或者--mount type=tmpfs,destination=/app 
+--volume <host>:<container>:[rw|ro]挂载一个磁盘卷 例如 --volume /home/hyzhou/docker:/data:rw
+--restart 设置重启策略on-failure,no,always
+--privileged 使用该参数，container内的root拥有真正的root权限。否则，container内的root只是外部的一个普通用户权限。privileged启动的容器，可以看到很多host上的设备，并且可以执行mount。甚至允许你在docker容器中启动docker容器。
+```
+```shell
+# 修改时区
+docker run  -e TZ="Asia/Shanghai" -p 8090:8090 -d --name ch ch/ch
+
+```
 ```shell
 docker run -itd --name redis002 -p 8888:6379 --restart=always  redis:5.0.5 /bin/bash
 ```
