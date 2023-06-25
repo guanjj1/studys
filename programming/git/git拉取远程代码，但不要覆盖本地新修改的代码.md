@@ -92,7 +92,7 @@ git commit -m zhushi
 git push origin
 ```
 6.被拒绝\
-如果上一步被拒绝，是因为master有更新的代码入库了，为了防止master上出现分线，需要重新执行第5步
+如果上一步被拒绝，是因为master有更新的代码入库了，为了防止master上出现分线，需要重新执行第5步...
 
 
 #### stash详解<a id="stash"></a>
