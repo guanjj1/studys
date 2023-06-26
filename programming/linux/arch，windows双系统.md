@@ -30,11 +30,12 @@
 ### 重启进入启动盘(提前进入bios禁用)
 <https://github.com/archlinux/archinstall/issues/1554>\
 <https://askubuntu.com/questions/1213973/how-to-repair-kernel-error-pcieport-aer-p-pcieport-device-8086a110-error-st>\
+<https://blog.csdn.net/qq_41807801/article/details/99954767>\
 在试图启动 Arch Linux 之前在固件设置中手动禁用 UEFI 安全启动
 华硕在security，secure boot中，并将boot改为uefi启动first，启动后报错Error of this agent is reported first，尝试升级bios或:
 ```shell
 sudo -H gedit /etc/default/grub # edit this file
-找到字符串“quietsplash”并将其更改为"quiet splash pci=noaer"。
+找到字符串“quietsplash”并将其更改为"quiet splash pci=noaer" or"quiet splash pcie_aspm=off"。
 sudo update-grub # update GRUB
 reboot# 重新启动计算机
 ```
