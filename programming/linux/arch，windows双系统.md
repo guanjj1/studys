@@ -35,7 +35,7 @@
 华硕在security，secure boot中，并将boot改为uefi启动first，启动后报错Error of this agent is reported first，尝试升级bios或:
 ```shell
 sudo -H gedit /etc/default/grub # edit this file
-找到字符串“quietsplash”并将其更改为
+# 在文件中找到 GRUB_CMDLINE_LINUX_DEFAULT 关键字修改值为并将其更改为
 quiet splash pci=noaer
 #or
 quiet splash pcie_aspm=off #不推荐
