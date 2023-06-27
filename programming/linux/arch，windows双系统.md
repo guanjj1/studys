@@ -209,7 +209,7 @@ pacman -Syu
 ```shell
 pacstrap -K /mnt base base-devel linux-lts linux-lts-headers linux-firmware neovim btrfs-progs amd-ucode
 pacstrap -K /mnt base base-devel linux-zen linux-zen-headers linux-firmware intel-ucode man-db man-page man-page-zh_cn texinfo git neovim mtools dosfstools btrfs-progs pacman-contrib openssh bash-completion doas
-pacstrap -K /mnt base base-devel linux linux-headers linux-firmware neovim btrfs-progs intel-ucode git networkmanager snapper dhcpcd sudo network-manager-applet  wpa_supplicant net-tools
+pacstrap -K /mnt base base-devel linux linux-headers linux-firmware neovim btrfs-progs intel-ucode/amd-ucode git networkmanager snapper dhcpcd sudo network-manager-applet  wpa_supplicant net-tools
 
 # 安装报错
 pacman -Sy archlinux-keyring
@@ -261,6 +261,9 @@ cat /etc/hosts
 pacman -S grub efibootmgr os-prober 
 grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=Archlinux
 grub-mkconfig -o /boot/grub/grub.cfg
+#如果grub.cfg中没有windows启动项，手动添加 如下图
+#先获取windows efi分区的uuid
+blkid efi分区
 
 or
 
@@ -268,6 +271,15 @@ bootctl --path=/mnt/boot install
 
 
 ```
+grub报错或检测不到windows可先尝试下面的方法：
+warning: os-prober will not be excuted to detect other bootable partitions.
+解决方法：
+vim /etc/default/grub #打开grub配置文件
+GRUB_DISABLE_OS_PROBER=false #添加这一行
+grub-mkconfig -o /boot/grub/grub.cfg #重新生成配置文件，终于检测到windows
+手动添加
+![](images/img-2023-06-26-08-31-21.png)
+
 ### 驱动安装
 
 ### mkinitcpio
