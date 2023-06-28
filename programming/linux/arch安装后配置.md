@@ -58,7 +58,21 @@ pacman -Syu wqy-zenhei wqy-microhei
 ```
 
 ### xfce美化
-
+<https://www.xfce-look.org>
+```shell
+pacman -Syu ocs-url
+```
+#### 主题
+<https://www.xfce-look.org/p/1343249/>
+![](images/img-2023-06-28-09-44-11.png)
+<https://www.xfce-look.org/p/1099856/>
+![](images/img-2023-06-28-09-43-20.png)
+<https://www.xfce-look.org/p/1365372>
+![](images/img-2023-06-28-09-42-33.png)
+<https://www.xfce-look.org/p/1357889>
+![](images/img-2023-06-28-09-41-49.png)
+#### 图标
+<https://www.xfce-look.org/p/1340791>
 ### 常用软件安装
 ```shell
 pacman -Syu chromium
