@@ -92,3 +92,10 @@ pacman -Syu btrfs-assistant
 
 pacman -Syu timeshif
 ```
+#### vpn
+```shell
+pacman -Syu openvpn
+pacman -Syu protonvpn
+
+sudo pacman -Syu libappindicator-gtk3 gnome-shell-extension-appindicator
+```
