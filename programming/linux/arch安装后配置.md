@@ -1,3 +1,4 @@
+<https://www.52dianzi.com/category/article/29e30e8305e0d2ab6c4e7c1a0bcb25eb.html>
 <!--
  * @Author: error: error: git config user.name & please set dead value or install git && error: git config user.email & please set dead value or install git & please set dead value or install git
  * @Date: 2023-11-29 00:47:41
@@ -53,6 +54,7 @@ pacman -Syu fcitx5-im fcitx5-chinese-addons fcitx5-input-support fcitx5-qt fcitx
 ![](images/img-2023-06-27-18-06-24.png)
 ![](images/img-2023-06-27-18-06-55.png)
 ##### ArchCN源
+<https://www.bilibili.com/read/cv16679882/>\
 /etc/pacman.conf 文件末尾添加以下两行
 ```conf
 [archlinuxcn]
@@ -101,10 +103,21 @@ pacman -Syu
 ```
 #### 快照
 <https://www.bilibili.com/read/cv16725144>\
-<https://zhuanlan.zhihu.com/p/346602946>
+<https://zhuanlan.zhihu.com/p/346602946>\
+<https://blog.csdn.net/AsynSpace/article/details/80654030>\
+<https://blog.csdn.net/love906897406/article/details/128225342>
 ```shell
 #snapper-gui
 pacman -Syu btrfs-assistant
 
 pacman -Syu timeshif
 ```
+#### vpn
+```shell
+pacman -Syu openvpn
+pacman -Syu protonvpn
+
+sudo pacman -Syu libappindicator-gtk3 gnome-shell-extension-appindicator
+```
+#### 系统迁移
+<https://blog.csdn.net/m0_60028455/article/details/121968980> 

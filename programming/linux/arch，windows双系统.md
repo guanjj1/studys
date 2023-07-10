@@ -326,6 +326,10 @@ reboot
 ```
 ### 选择系统
 <https://wiki.archlinux.org/title/GRUB#Using_the_command_shell>
+### 装逼
+```shell
+neofetch
+```
 ```shell
 #每天一边遍,防止滚挂【doge】
 sudo pacman -Syyu
