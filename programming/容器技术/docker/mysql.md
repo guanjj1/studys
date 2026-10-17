@@ -2,10 +2,12 @@
  * @Author: guanjiajun www.guanjiajun@ewake.com
  * @Date: 2023-04-01 19:26:23
  * @LastEditors: guanjiajun www.guanjiajun@ewake.com
- * @LastEditTime: 2023-05-30 14:22:00
+ * @LastEditTime: 2024-07-19 19:13:38
  * @FilePath: \studys\programming\容器技术\docker\mysql.md
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
+<https://www.jb51.net/article/273141.htm>\
+<https://www.cnblogs.com/sablier/p/11605606.html>
 ### 拉取镜像
 ```shell
 # 拉取镜像
@@ -22,6 +24,17 @@ docker search mysql
 ### 查看镜像
 ```shell
 docker images
+```
+### 启动临时镜像，获取配置文件
+```shell
+docker run --name temp -itd -e MYSQL_ROOT_PASSWORD=ewake666 mysql:latest
+
+#复制配置文件到宿主机
+docker cp temp:/etc/mysql ./mysql/conf
+docker cp temp:/var/lib/mysql ./mysql/data
+#删除临时镜像
+docker rm -f temp
+
 ```
 ### 启动镜像（经测试，密码设置失败，密码默认为空）
 ```shell
@@ -44,7 +57,7 @@ echo 'Asia/Shanghai' > /etc/timezone/timezone
 # 或采用
 -v /etc/localtime:/etc/localtime
 
-docker run -di -p 3306:3306 --name mysql --restart=always -v /home/mysql/log:/var/log/mysql -v /home/mysql/data:/var/lib/mysql -v /etc/localtime:/etc/localtime -v /home/mysql/conf:/etc/mysql -v /home/mysql/mysql-files:/var/lib/mysql-files -e MYSQL_ROOT_PASSWORD=ewake666 mysql:latest
+docker run -di -p 3306:3306 --name mysql --restart=always -v /home/mysql/log:/var/log/mysql -v /home/mysql/data:/var/lib/mysql -v /etc/localtime:/etc/localtime -v /home/mysql/conf:/etc/mysql -v /home/mysql/data:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=ewake666 mysql:latest
 
 #限制日志文件大小
 --log-opt max-size=100m --log-opt max-file=2

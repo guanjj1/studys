@@ -1,0 +1,237 @@
+- [保持apk签名不变](#保持apk签名不变)
+  - [build.gradle](#buildgradle)
+    - [1. 生成签名密钥（如果尚未生成）](#1-生成签名密钥如果尚未生成)
+      - [执行命令](#执行命令)
+        - [打开终端或命令提示符：](#打开终端或命令提示符)
+        - [运行命令：](#运行命令)
+        - [输入提示信息：](#输入提示信息)
+      - [生成的文件](#生成的文件)
+      - [注意事项](#注意事项)
+        - [保存密钥库文件：](#保存密钥库文件)
+        - [记住密码：](#记住密码)
+        - [密钥库格式：](#密钥库格式)
+    - [2. 配置签名密钥](#2-配置签名密钥)
+    - [3. 配置 build.gradle](#3-配置-buildgradle)
+    - [4. 打包 APK](#4-打包-apk)
+    - [5. 保持签名不变](#5-保持签名不变)
+    - [6. 备份密钥库](#6-备份密钥库)
+    - [总结](#总结)
+  - [build.gradle.kts](#buildgradlekts)
+    - [1. 生成签名密钥（如果尚未生成）](#1-生成签名密钥如果尚未生成-1)
+    - [2. 配置签名密钥](#2-配置签名密钥-1)
+    - [3. 配置 build.gradle.kts](#3-配置-buildgradlekts)
+    - [4. 打包 APK](#4-打包-apk-1)
+    - [5. 保持签名不变](#5-保持签名不变-1)
+    - [6. 备份密钥库](#6-备份密钥库-1)
+    - [总结](#总结-1)
+- [app打包加固](#app打包加固)
+    - [1.混淆](#1混淆)
+    - [2.使用360加固后重新签名](#2使用360加固后重新签名)
+# 保持apk签名不变
+## build.gradle
+在 Flutter 中打包 APK 时，保持签名不变的关键在于使用相同的签名密钥（keystore）。以下是具体步骤：
+
+### 1. 生成签名密钥（如果尚未生成）
+如果你还没有签名密钥，可以通过以下命令生成：
+
+```bash
+keytool -genkey -v -keystore ~/upload-keystore.jks -keyalg RSA -keysize 2048 -validity 10000 -alias upload
+```
+  
+* keytool：Java 密钥和证书管理工具。
+* -genkey：生成一个新的密钥对（公钥和私钥）。
+* -v：启用详细模式，显示生成过程中的详细信息。
+* -keystore my-release-key.jks：指定生成的密钥库文件名* （my-release-key.jks）。这是一个 Java 密钥库（JKS）文件。
+* -keyalg RSA：指定密钥算法为 RSA。
+* -keysize 2048：指定密钥长度为 2048 位。这是目前推荐的安全长度。
+* -validity 10000：指定密钥的有效期为 10000 天（约 27 年）。
+* -alias my-key-alias：为密钥对指定一个别名（my-key-alias），用于后续引用。
+#### 执行命令
+##### 打开终端或命令提示符：
+* Windows 用户可以使用命令提示符或 PowerShell。
+* macOS 和 Linux 用户可以使用终端。
+##### 运行命令：
+将上述命令粘贴到终端中并运行。如果系统提示找不到 keytool，可能是因为 JDK 没有正确安装或未添加到系统的 PATH 环境变量中。
+##### 输入提示信息：
+* 密钥库密码：输入一个强密码来保护密钥库文件。
+* 密钥密码：输入一个强密码来保护密钥对（通常与密钥库密码相同）。
+* 你的名字与姓氏：通常填写你的名字或应用的名称。
+* 你的组织单位名称：填写你的部门或组织名称。
+* 你的组织名称：填写你的公司或组织名称。
+* 你所在的城市或区域：填写城市名称。
+* 你所在的省/市/自治区：填写省份或州。
+* 国家代码：填写两位字母的国家代码（如 CN 表示中国）。
+#### 生成的文件
+运行命令后，会在当前目录下生成一个名为 my-release-key.jks 的密钥库文件。这个文件包含了用于签名 APK 的密钥对。
+#### 注意事项
+##### 保存密钥库文件：
+* 密钥库文件是发布应用的关键，务必妥善保存。如果丢失，将无法更新应用。
+* 建议将文件存储在安全的地方，并备份到多个位置。
+##### 记住密码：
+* 密钥库密码和密钥密码非常重要，务必记录下来并妥善保存。如果忘记密码，将无法使用密钥库文件。
+##### 密钥库格式：
+* 如果你使用的是较新的 Android Studio 或 Gradle 插件，建议使用 PKCS12 格式的密钥库文件。可以通过以下命令生成：
+```bash
+keytool -genkey -v -keystore my-release-key.p12 -keyalg RSA -keysize 2048 -validity 10000 -alias my-key-alias -storetype PKCS12
+```
+通过以上步骤，你可以成功生成用于签名 APK 的密钥库文件。
+
+### 2. 配置签名密钥
+在 Flutter 项目的 android 目录下创建一个 key.properties 文件，内容如下：
+
+```properties
+storePassword=你的密钥库密码
+keyPassword=你的密钥密码
+keyAlias=upload
+storeFile=/path/to/your/upload-keystore.jks
+```
+* storePassword 和 keyPassword 是密钥库和密钥的密码。
+
+* keyAlias 是密钥别名。
+
+* storeFile 是密钥库文件的路径。
+
+### 3. 配置 build.gradle
+在 android/app/build.gradle 文件中添加签名配置：
+
+```gradle
+def keystoreProperties = new Properties()
+def keystorePropertiesFile = rootProject.file('key.properties')
+if (keystorePropertiesFile.exists()) {
+    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+}
+
+android {
+    ...
+    signingConfigs {
+        release {
+            keyAlias keystoreProperties['keyAlias']
+            keyPassword keystoreProperties['keyPassword']
+            storeFile keystoreProperties['storeFile'] ? file(keystoreProperties['storeFile']) : null
+            storePassword keystoreProperties['storePassword']
+        }
+    }
+    buildTypes {
+        release {
+            signingConfig signingConfigs.release
+            ...
+        }
+    }
+}
+```
+### 4. 打包 APK
+使用以下命令打包 APK：
+
+```bash
+flutter build apk --release
+```
+### 5. 保持签名不变
+每次打包时，确保使用相同的 key.properties 文件和密钥库（keystore），这样生成的 APK 签名就会保持一致。
+
+### 6. 备份密钥库
+为了防止丢失，务必备份好密钥库文件和密码，丢失后将无法更新应用。
+
+### 总结
+通过使用相同的密钥库文件和配置，可以确保每次打包的 APK 签名一致。
+## build.gradle.kts
+flutter 打包apk如何保持签名不变 build.gradle.kts
+在 Flutter 项目中，如果你使用的是 build.gradle.kts（Kotlin DSL 构建脚本），保持 APK 签名不变的步骤与使用 build.gradle（Groovy DSL）类似，但语法有所不同。以下是具体步骤：
+
+### 1. 生成签名密钥（如果尚未生成）
+如果你还没有签名密钥，可以通过以下命令生成：
+
+```bash
+keytool -genkey -v -keystore ~/upload-keystore.jks -keyalg RSA -keysize 2048 -validity 10000 -alias upload
+```
+* ~/upload-keystore.jks 是密钥库文件的路径。
+
+* upload 是密钥的别名。
+
+### 2. 配置签名密钥
+在 Flutter 项目的 android 目录下创建一个 key.properties 文件，内容如下：
+
+```properties
+storePassword=你的密钥库密码
+keyPassword=你的密钥密码
+keyAlias=upload
+storeFile=/path/to/your/upload-keystore.jks
+```
+* storePassword 和 keyPassword 是密钥库和密钥的密码。
+
+* keyAlias 是密钥别名。
+
+* storeFile 是密钥库文件的路径（可以是绝对路径或相对路径）。
+
+### 3. 配置 build.gradle.kts
+在 android/app/build.gradle.kts 文件中添加签名配置：
+
+```kotlin
+import java.util.Properties
+
+val keystoreProperties = Properties().apply {
+    val keystorePropertiesFile = rootProject.file("key.properties")
+    if (keystorePropertiesFile.exists()) {
+        load(keystorePropertiesFile.inputStream())
+    }
+}
+
+android {
+    ...
+    signingConfigs {
+        create("release") {
+            keyAlias = keystoreProperties.getProperty("keyAlias")
+            keyPassword = keystoreProperties.getProperty("keyPassword")
+            storeFile = keystoreProperties.getProperty("storeFile")?.let { file(it) }
+            storePassword = keystoreProperties.getProperty("storePassword")
+        }
+    }
+    buildTypes {
+        getByName("release") {
+            signingConfig = signingConfigs.getByName("release")
+            isMinifyEnabled = true
+            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+        }
+    }
+}
+```
+### 4. 打包 APK
+使用以下命令打包 APK：
+
+```bash
+flutter build apk --release
+```
+### 5. 保持签名不变
+每次打包时，确保使用相同的 key.properties 文件和密钥库（keystore），这样生成的 APK 签名就会保持一致。
+
+### 6. 备份密钥库
+为了防止丢失，务必备份好密钥库文件和密码，丢失后将无法更新应用。
+
+### 总结
+通过使用相同的密钥库文件和配置，可以确保每次打包的 APK 签名一致。build.gradle.kts 的配置方式与 build.gradle 类似，只是语法从 Groovy 换成了 Kotlin DSL。
+
+# app打包加固
+
+### 1.混淆
+
+
+```shell
+flutter build apk --release --obfuscate --split-debug-info=./symbols/ --split-per-abi
+
+```
+### 2.使用360加固后重新签名
+
+
+
+
+
+```shell
+# 1. 先对齐（加固后的APK通常需要对齐）your_app_aligned对齐后文件
+zipalign -p -f -v 4 app-arm64-v8a-release_108_jiagu_17111788.apk fgbox_108_aligned.apk
+
+# 2. 签名（V1+V2同时启用）jks可能是p12
+apksigner sign --ks G:\flutterProjects1\fgbox\fgbox-release-key.p12 --ks-key-alias fgbox --ks-pass pass:ewake666 --key-pass pass:ewake666 --v1-signing-enabled true --v2-signing-enabled true --out fgbox_108_resigned.apk fgbox_108_aligned.apk
+
+# 3. 验证签名
+apksigner verify -v your_app_aligned.apk
+
+```

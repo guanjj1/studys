@@ -2,7 +2,7 @@
  * @Author: guanjiajun www.guanjiajun@ewake.com
  * @Date: 2023-04-04 14:11:06
  * @LastEditors: guanjiajun www.guanjiajun@ewake.com
- * @LastEditTime: 2023-04-07 20:11:31
+ * @LastEditTime: 2024-07-24 19:11:10
  * @FilePath: \studys\programming\容器技术\docker\redis.md
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -25,6 +25,39 @@ mkdir -p /home/redis/data
 #修改 appendonly yes ,bind * -::*,requirepass 密码
 
 ```
+<https://blog.csdn.net/weixin_43732943/article/details/134149347>\
+<https://blog.csdn.net/qq_34202873/article/details/134875519>
+```conf
+#把文件中的daemonize属性改为yes（表明需要在后台运行）,docker中设置为no
+daemonize yes
+
+#指定log日志文件的位置 自己建一下文件夹和文件
+logfile "/usr/local/redis/logs/redis.log"
+
+# 绑定地址，默认是127.0.0.1，会导致只能在本地访问。修改为0.0.0.0则可以在任意IP访问
+bind 0.0.0.0或注释该行
+
+; 指定Redis服务的端口号，默认为6379。
+port：6379
+
+# 保护模式，关闭保护模式 设置成 no 允许远程访问
+protected-mode no
+
+# 配置持久化文件存放的路径 docker看下一条
+dir /usr/local/redis
+#注意修改这里的目录为容器内目录，默认reids进来是在/data/目录
+dir /data/
+
+# 配置文件中的appendonly修改为yes，开启AOF持久化  其他默认即可
+appendonly yes
+
+#配置密码 # requirepass foobared 去除 #，foobared修改为自己的密码  
+requirepass 123456
+
+logfile ""有需要可进行设置，并挂载到主机
+
+dbfilename：指定RDB持久化的数据库文件名，默认为dump.rdb。
+```
 ![](images/img-2023-04-07-16-47-50.png)
 ### 启动redis容器
 ```shell
@@ -37,16 +70,22 @@ firewall-cmd --reload
 #查询端口是否开放用 --query-port
 firewall-cmd --query-port=8080/tcp
 #建议重启
-docker run --name redis62 --restart=always --log-opt max-size=100m --log-opt max-file=2 -p 6379:6379 -v /home/redis/conf/redis.conf:/etc/redis/redis.conf -v /home/redis/data:/data -di redis:alpine redis-server /etc/redis/redis.conf  --appendonly yes  --requirepass ewake666
-
+docker run --name redis62 --restart=always --log-opt max-size=100m --log-opt max-file=2 -p 6379:6379 -v /home/redis/conf/redis.conf:/etc/redis/redis.conf -v /home/redis/data:/data -di redis:7.2.5-alpine3.20 redis-server /etc/redis/redis.conf  --appendonly yes  --requirepass ewake666
+# 报错Failed to write PID file: Permission denied（似乎不影响redis操作）
+--privileged=true(好像没有)
 #--appendonly yes  --requirepass ewake666不修改配置文件 可不加
 
 ```
---restart=always 总是开机启动
---log是日志方面的
--p 6379:6379 将6379端口挂载出去
---name 给这个容器取一个名字
+
+–name 容器运行名称
+–restart=always 开机启动
+–log-opt 日志配置
+max-size：指定日志文件大小上限
+max-file：指定日志文件个数
+-p 端口映射
 -v 数据卷挂载
+-d redis 表示后台启动redis redis-server /etc/redis/redis.conf 以配置文件启动redis，加载容器内的conf文件
+
 - /home/redis/myredis/myredis.conf:/etc/redis/redis.conf 这里是将 liunx 路径下的myredis.conf 和redis下的redis.conf 挂载在一起。
 - /home/redis/myredis/data:/data 这个同上
 -d redis 表示后台启动redis

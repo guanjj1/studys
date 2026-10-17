@@ -2,7 +2,7 @@
  * @Author: guanjiajun www.guanjiajun@ewake.com
  * @Date: 2023-08-25 17:46:07
  * @LastEditors: guanjiajun www.guanjiajun@ewake.com
- * @LastEditTime: 2023-08-25 18:13:15
+ * @LastEditTime: 2024-03-22 17:39:32
  * @FilePath: \studys\programming\web,client\flutter\flutter项目升级.md
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -20,6 +20,13 @@ flutter upgrade
 建议使用stable
 如果你需要某个特定的 Flutter SDK 版本, 你可以从 SDK 版本 页面下载.
 <https://flutter.cn/docs/release/archive?tab=windows>
+
+* 升级后为防止flutter的gradle文件存在c盘，记得在flutter\bin\cache\artifacts\gradle_wrapper,编辑gradlew.bat文件添加
+```bat
+<!-- 替换E:/SDK/Gradle为自定义的gradle路径 -->
+set GRADLE_OPTS="-Dgradle.user.home=E:/SDK/Gradle"
+```
+![](images/img-2024-03-22-17-39-46.png)
 ### 仅更新 packages
 如果你修改了 pubspec.yaml 文件，或者想仅更新项目依赖的 packages，而不是同时更新 packages 和 Flutter SDK，可以选择使用下面提到的 flutter pub 命令。
 

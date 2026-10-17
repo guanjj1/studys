@@ -2,7 +2,7 @@
  * @Author: guanjiajun www.guanjiajun@ewake.com
  * @Date: 2023-03-09 10:43:13
  * @LastEditors: guanjiajun www.guanjiajun@ewake.com
- * @LastEditTime: 2023-03-31 08:38:06
+ * @LastEditTime: 2026-05-20 11:07:46
  * @FilePath: \studys\programming\server\go\go环境搭建.md
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -34,4 +34,21 @@ go mod init + module名称  // 给就项目添加mod管理
 go build ./...  // 可以一次性将目录下所有的项目的依赖
 
 go get xxx  // 用于添加依赖
+
+go get -u‌ //是 Go 语言中用于‌更新项目依赖包及其传递依赖到最新兼容版本‌的命令，常用于获取 bug 修复或新功能而不破坏现有主版本兼容性
+
+// 初始化当前文件夹中的模块
+go mod init example.com/m
+ 
+// 下载依赖项
+go mod download
+ 
+// 清理和整理模块依赖
+go mod tidy
+ 
+// 验证模块依赖是否正确和完整
+go mod verify
+ 
+// 复制依赖到vendor目录
+go mod vendor
 ```

@@ -1,3 +1,78 @@
+- [docker入门](#docker入门)
+- [docker卸载](#docker卸载)
+- [docker安装](#docker安装)
+  - [centos安装docker](#centos安装docker)
+    - [docker安装](#docker安装-1)
+    - [docker添加镜像服务](#docker添加镜像服务)
+    - [docker启动](#docker启动)
+    - [查看docker状态](#查看docker状态)
+    - [停止docker](#停止docker)
+    - [重启docker](#重启docker)
+    - [设置开机自启动](#设置开机自启动)
+  - [docker常用命令](#docker常用命令)
+    - [镜像常用命令](#镜像常用命令)
+      - [查看镜像](#查看镜像)
+      - [搜索镜像](#搜索镜像)
+      - [拉取镜像](#拉取镜像)
+      - [删除镜像](#删除镜像)
+      - [删除多个镜像](#删除多个镜像)
+      - [删除所有镜像](#删除所有镜像)
+    - [容器常用命令](#容器常用命令)
+      - [查看正在运行的容器](#查看正在运行的容器)
+    - [docker时区](#docker时区)
+      - [创建启动容器](#创建启动容器)
+      - [常见较好的启动方式](#常见较好的启动方式)
+      - [停止容器](#停止容器)
+      - [启动容器](#启动容器)
+      - [文件拷贝](#文件拷贝)
+      - [目录挂载(同步)启动过镜像后进行目录挂载](#目录挂载同步启动过镜像后进行目录挂载)
+      - [查看容器ip地址](#查看容器ip地址)
+      - [删除容器](#删除容器)
+      - [查看容器日志](#查看容器日志)
+      - [容器端口与服务器端口映射（端口映射前要停止，删除容器）](#容器端口与服务器端口映射端口映射前要停止删除容器)
+      - [从容器内 退出到自己服务器中](#从容器内-退出到自己服务器中)
+    - [迁移与备份](#迁移与备份)
+      - [容器保存为镜像](#容器保存为镜像)
+      - [镜像备份](#镜像备份)
+      - [镜像恢复](#镜像恢复)
+    - [启动过镜像后进行目录挂载](#启动过镜像后进行目录挂载)
+      - [查看要新增挂载的容器id](#查看要新增挂载的容器id)
+      - [进入要新增文件夹挂载的目录](#进入要新增文件夹挂载的目录)
+      - [关闭容器、关闭docker](#关闭容器关闭docker)
+      - [修改config.v2.json](#修改configv2json)
+      - [修改hostconfig.json](#修改hostconfigjson)
+      - [重启docker与容器](#重启docker与容器)
+      - [注意](#注意)
+
+# docker入门
+<https://www.bilibili.com/video/BV1W1421m7qQ/?spm_id_from=333.788&vd_source=ac44a38168194f76fada7686c12a4a37>
+
+# docker卸载
+<https://blog.csdn.net/www1056481167/article/details/127849078>\
+<https://blog.csdn.net/qq_45121180/article/details/140006106>
+
+```shell
+# 查看有没有安装过旧版
+# 适用于使用 yum 安装 docker 的系统
+yum list installed | grep docker
+ 
+# 或者查看 docker 版本
+docker --version
+
+# 停止docker
+systemctl stop docker
+# 查看 docker 状态是否已经停止
+systemctl status docker
+# 删除安装过docker的相关包
+yum -y remove containerd.io.x86_64 \ 
+              docker-buildx-plugin.x86_64 \ 
+              docker-ce.x86_64 \ 
+              docker-ce-cli.x86_64 \ 
+              docker-ce-rootless-extras.x86_64 \ 
+              docker-compose-plugin.x86_64
+
+```
+
 # docker安装
 <https://blog.csdn.net/PyongSen/article/details/123053374>
 ## centos安装docker
@@ -230,10 +305,18 @@ docker commit mynginx(容器名称) mynginx_i（镜像名称）
 #### 镜像备份
 ```shell
 docker save -o mynginx.tar(导出的文件) mynginx_i（镜像名称）
+#在备份镜像时，应该使用镜像的名称和标签，而不是直接使用镜像ID。例如，如果你有一个名为 redis:5.0.2 的镜像，你应该使用以下命令进行备份：
+docker save -o redis.tar redis:5.0.2
+#这样，当你使用 docker load < redis.tar 恢复镜像时，镜像将保留其名称和标签
 ``` 
 #### 镜像恢复
 ```shell
-docker save -o mynginx.tar(导出的文件) mynginx_i（镜像名称）
+docker load -i mynginx.tar(导出的文件)
+
+docker load < redis.tar
+
+#恢复没有名字，标签，手动打标签
+docker tag [镜像ID] [新镜像名称]:[新镜像标签]
 ``` 
 
 ### 启动过镜像后进行目录挂载<a id="mount"></a>

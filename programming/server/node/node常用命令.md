@@ -18,5 +18,8 @@ npm install pnpm -g
 npm install typescript -g
 # pnpm 加速
 pnpm set registry https://registery.npm.taobao.org
+# 上面报错执行下面
+pnpm config set registry https://registry.npmmirror.com
+
 ```
 

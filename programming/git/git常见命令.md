@@ -2,7 +2,7 @@
  * @Author: guanjiajun www.guanjiajun@ewake.com
  * @Date: 2023-04-03 18:13:24
  * @LastEditors: guanjiajun www.guanjiajun@ewake.com
- * @LastEditTime: 2023-04-03 18:13:38
+ * @LastEditTime: 2026-10-17 21:17:47
  * @FilePath: \studys\programming\git\git常见命令.md
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
@@ -14,7 +14,8 @@ git branch
 
 1.基本指令
 ```shell
-git init —— 新建git仓库
+git init —— 新建git仓库 主分支名默认master
+git init --initial-branch=main 主分支名为main
 git add 文件/文件夹 —— 将文件添加到缓存区中
 git add -A --- 添加所有内容到缓存区中
 git status      ——— 查看git状态
@@ -26,17 +27,34 @@ git reset -- hard HEAD      —— 让工作目录中的内容和仓库中�
 git reset --hard HEAD^      —— 回到上一个版本
 git reset -- hard 版本号      —— 回到指定的版本
 
+执行回退（根据需求选择模式）：
+
+--soft：保留工作区和暂存区修改
+git reset --soft e4f5g6h
+--mixed（默认）：保留工作区修改，清空暂存区
+git reset --mixed e4f5g6h
+--hard：丢弃所有未提交修改（慎用）
+git reset --hard e4f5g6h
+
 git checkout 文件名       —— 从暂存区中恢复工作目录中的内容(让工作区中的指定文件，回到上次提交的时候的状态)
 
 git clone <url> - 将服务器上的项目(仓库)克隆 (使用https地址需要输入密码，使用ssh地址需要添加公钥)
 
 git remote add origin 地址      ----- 关联远程仓库(只需要关联一次)
 
+git remote set-url origin 地址 修改
+
 git push [-u] origin master      ----- 提交(-u在第一次提交分支的时候才用)
 
 git push — 将本地仓库的内容提交到远程仓库master分支上
 
 git push origin 分支名 — 将本地仓库的内容提交到远程仓库对应的分支上, 如果分支不存在会自动创建
+
+git push --set-upstream origin main 把本地 main 分支推送到远端 origin，并把它设为本地 main 的上游跟踪分支。--set-upstream 等价于 -u
+
+git push --set-upstream origin --all --all 会把本地所有分支都推上去，包括临时分支、废弃分支
+
+git push --set-upstream origin --tags --all 不推标签。这是 Git 的设计，所以 GitLab 才单独给了 --tags 那条。只跑第一条，远端会缺标签
 
 git pull — 将远程仓库中的内容更新到本地仓库和工作区中
 
